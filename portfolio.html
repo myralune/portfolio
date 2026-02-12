@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Listen to Myralune's music portfolio — soundtracks for Flood Escape 2, untitled tag game, and more.">
+    <title>Myralune | Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@0.473.0"></script>
+</head>
+
+<body>
+
+    <canvas id="particle-canvas"></canvas>
+
+    <nav class="navbar">
+        <a href="index.html" class="logo">myralune.uk</a>
+        <button class="menu-toggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="portfolio.html" class="active">Portfolio</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="terms.html">Terms</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <header class="page-header animate-on-scroll">
+            <h1>Portfolio</h1>
+        </header>
+
+        <section style="position: relative;">
+            <div class="carousel-view animate-on-scroll" id="carousel-container">
+            </div>
+
+            <button class="nav-arrow nav-prev" onclick="moveCarousel(-1)">
+                <i data-lucide="chevron-left"></i>
+            </button>
+            <button class="nav-arrow nav-next" onclick="moveCarousel(1)">
+                <i data-lucide="chevron-right"></i>
+            </button>
+
+            <div class="carousel-dots" id="carousel-dots"></div>
+        </section>
+
+        <section class="audio-section">
+            <h2 class="animate-on-scroll">Compositions</h2>
+            <div class="track-list" id="track-container"></div>
+            <audio id="main-audio" crossorigin="anonymous"></audio>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span class="footer-brand">myralune.uk</span>
+            <nav class="footer-links">
+                <a href="terms.html">Terms</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <span class="footer-copy">&copy; 2025 myralune. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <script>
+        /* =========================================
+   GAMES DATA & CAROUSEL LOGIC
+   ========================================= */
+        const games = [
+            {
+                title: "Flood Escape 2",
+                image: "assets/images/fe2.png",
+                role: "Composer",
+                visits: "579.2M+",
+                ccu: "3K",
+                link: "https://www.roblox.com/games/738339342/Flood-Escape-2"
+            },
+            {
+                title: "untitled tag game",
+                image: "assets/images/utg.png",
+                role: "Composer",
+                visits: "376.6M+",
+                ccu: "2K",
+                link: "https://www.roblox.com/games/14044547200/untitled-tag-game"
+            },
+            {
+                title: "Liquid Breakout",
+                image: "assets/images/lb.png",
+                role: "Composer",
+                visits: "4.6M+",
+                ccu: "~10",
+                link: "https://www.roblox.com/games/741905805/Liquid-Breakout"
+            }
+        ];
+
+        const songs = [
+            {
+                title: "Fungal Grotto",
+                file: "fungal.mp3",
+                duration: "2:02",
+                date: "FEB 2026",
+                tag: "BOTANICA / PETALCORE",
+                desc: "Melodic Ambient track I made in 4 hours. This was my first time making this genre. I enjoyed it a lot.",
+                category: "Flood Escape 2 Community Maps (FE2CM) - Commissioned Work"
+            },
+            {
+                title: "Ancestral Depths",
+                file: "ancestral.mp3",
+                duration: "2:14",
+                date: "NOV 2025",
+                tag: "HARDSTYLE DRUM & BASS",
+                desc: "Aggressive, high-tempo track with orchestral elements. I focused on the vocals a lot for this one.",
+                category: "Flood Escape 2 Community Maps (FE2CM) - Commissioned Work"
+            },
+            {
+                title: "Bereaved",
+                file: "bereaved.mp3",
+                duration: "2:26",
+                date: "SEP 2025",
+                tag: "AMBIENT ORCHESTRAL",
+                desc: "I experimented with a more emotional and cinematic style for this track, with lots of time signature changes. Made in collaboration with GamesAreJust4Fun.",
+                category: "Flood Escape 2 Community Maps (FE2CM) - Commissioned Work"
+            },
+            {
+                title: "Daemonophobia",
+                file: "daemonophobia.mp3",
+                duration: "2:45",
+                date: "JUN 2025",
+                tag: "DRUM & BASS",
+                desc: "Energetic and intense track, made in collaboration with Null0_1.",
+                category: "Flood Escape 2 Community Maps (FE2CM) - Commissioned Work"
+            },
+            {
+                title: "Grumbling Mineshafts",
+                file: "grumble.mp3",
+                duration: "2:23",
+                date: "JAN 2025",
+                tag: "ROCK / METAL",
+                desc: "Heavy and gritty track with distorted guitars and aggressive drums. Took me a while to make this one.",
+                category: "Flood Escape 2 Community Maps (FE2CM) - Commissioned Work"
+            },
+            {
+                title: "Deserted Derricks",
+                file: "deserted.mp3",
+                duration: "1:49",
+                date: "NOV 2024",
+                tag: "ELECTRONIC",
+                desc: "Energetic desert-themed track with a mix of electronic and organic sounds.",
+                category: "Flood Escape 2 Community Maps (FE2CM) - Commissioned Work"
+            },
+            {
+                title: "Combustion Conundrum",
+                file: "comb.mp3",
+                duration: "2:47",
+                date: "SEP 2024",
+                tag: "DRUM & BASS",
+                desc: "High-energy track with fast-paced drums and intense guitar. I had a lot of fun making this one.",
+                category: "untitled tag game - Submission"
+            },
+            {
+                title: "Exoplanetary Establishment",
+                file: "exo.mp3",
+                duration: "2:31",
+                date: "AUG 2024",
+                tag: "SYNTHWAVE",
+                desc: "Futuristic synth-heavy track. Not much else to say.",
+                category: "Flood Escape 2 Community Maps (FE2CM) - Commissioned Work"
+            },
+        ];
+
+        let currentGameIndex = 0;
+
+        function initCarousel() {
+            const container = document.getElementById('carousel-container');
+            const dotsContainer = document.getElementById('carousel-dots');
+
+            container.innerHTML = '';
+            dotsContainer.innerHTML = '';
+
+            games.forEach((game, index) => {
+                const card = document.createElement('div');
+                card.className = 'carousel-card';
+                card.id = `game-card-${index}`;
+                card.onclick = () => jumpToGame(index);
+
+                card.innerHTML = `
+            <div class="carousel-card-bg" style="background-image: url('${game.image}')"></div>
+            <div class="carousel-card-overlay">
+                <div class="game-tag">${game.role}</div>
+                <h3 style="font-size: 1.8rem; margin-bottom: 5px;">${game.title}</h3>
+
+                <div class="game-stats">
+                    <div class="stat-item">
+                        <i data-lucide="eye" width="16"></i> ${game.visits} visits
+                    </div>
+                    <div class="stat-item">
+                        <i data-lucide="zap" width="16"></i> ${game.ccu} peak CCU
+                    </div>
+                </div>
+
+                <a href="${game.link}" class="play-link">
+                    <i data-lucide="play-circle" width="18"></i> Play on Roblox
+                </a>
+            </div>
+        `;
+                container.appendChild(card);
+
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                dot.id = `dot-${index}`;
+                dot.onclick = () => jumpToGame(index);
+                dotsContainer.appendChild(dot);
+            });
+
+            lucide.createIcons();
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            games.forEach((_, index) => {
+                const card = document.getElementById(`game-card-${index}`);
+                const dot = document.getElementById(`dot-${index}`);
+
+                card.className = 'carousel-card';
+                dot.classList.remove('active');
+
+                let relIndex = (index - currentGameIndex + games.length) % games.length;
+
+                if (relIndex === 0) {
+                    card.classList.add('active');
+                    dot.classList.add('active');
+                } else if (relIndex === games.length - 1) {
+                    card.classList.add('prev');
+                } else if (relIndex === 1) {
+                    card.classList.add('next');
+                } else {
+                    card.style.opacity = 0;
+                    card.style.transform = 'scale(0.8)';
+                }
+            });
+        }
+
+        function moveCarousel(direction) {
+            currentGameIndex = (currentGameIndex + direction + games.length) % games.length;
+            updateCarousel();
+        }
+
+        function jumpToGame(index) {
+            currentGameIndex = index;
+            updateCarousel();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initCarousel();
+        });
+
+        /* AUDIO SYSTEM */
+        const audio = document.getElementById('main-audio');
+        const trackContainer = document.getElementById('track-container');
+
+        let audioContext, analyser, source;
+        let isContextSetup = false;
+        let currentCanvas = null;
+        let animationId = null;
+        let activeTrackIndex = -1;
+
+        songs.forEach((song, index) => {
+            const card = document.createElement('div');
+            card.className = 'track-card animate-on-scroll';
+            card.id = `card-${index}`;
+
+            card.innerHTML = `
+                <canvas class="bg-visualizer" id="canvas-${index}"></canvas>
+
+                <div class="track-content-wrapper">
+                    <div class="track-header">
+                        <span class="track-date">${song.date}</span>
+                        <span class="track-tag">${song.tag}</span>
+                    </div>
+
+                    <div>
+                        <span class="track-title">${song.title}</span>
+                        <span class="track-desc">${song.desc}</span>
+                        <div class="track-category">
+                            <i data-lucide="disc" width="14"></i>
+                            ${song.category}
+                        </div>
+                    </div>
+
+                    <div class="player-row">
+                        <div class="play-status-icon" id="icon-${index}" onclick="playTrack(${index})">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        </div>
+
+                        <div class="progress-container" onclick="seekAudio(event, ${index})">
+                            <div class="progress-fill" id="progress-${index}"></div>
+                        </div>
+
+                        <div class="volume-control" onclick="event.stopPropagation()"> <i data-lucide="volume-2" width="14" style="color: #666;"></i>
+                            <input type="range" min="0" max="1" step="0.05" value="1" class="volume-slider" oninput="setVolume(this.value)">
+                        </div>
+
+                        <span class="track-time" id="time-${index}">0:00 / ${song.duration}</span>
+                    </div>
+                </div>
+            `;
+            trackContainer.appendChild(card);
+        });
+
+        lucide.createIcons();
+
+        audio.ontimeupdate = () => {
+            if (activeTrackIndex === -1) return;
+
+            const progressFill = document.getElementById(`progress-${activeTrackIndex}`);
+            const timeDisplay = document.getElementById(`time-${activeTrackIndex}`);
+
+            if (progressFill && audio.duration) {
+                const percent = (audio.currentTime / audio.duration) * 100;
+                progressFill.style.width = `${percent}%`;
+
+                const currentMins = Math.floor(audio.currentTime / 60);
+                const currentSecs = Math.floor(audio.currentTime % 60).toString().padStart(2, '0');
+                timeDisplay.innerText = `${currentMins}:${currentSecs} / ${songs[activeTrackIndex].duration}`;
+            }
+        };
+
+        function seekAudio(event, index) {
+            if (activeTrackIndex !== index) {
+                playTrack(index);
+                return;
+            }
+
+            const container = event.currentTarget;
+            const clickX = event.offsetX;
+            const width = container.clientWidth;
+            const duration = audio.duration;
+
+            if (duration) {
+                audio.currentTime = (clickX / width) * duration;
+            }
+        }
+
+        function setupAudioContext() {
+            if (isContextSetup) return;
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            analyser = audioContext.createAnalyser();
+            source = audioContext.createMediaElementSource(audio);
+            source.connect(analyser);
+            analyser.connect(audioContext.destination);
+            analyser.fftSize = 256;
+            isContextSetup = true;
+        }
+
+        function playTrack(index) {
+            if (!isContextSetup) setupAudioContext();
+            if (audioContext.state === 'suspended') audioContext.resume();
+
+            const selectedFile = songs[index].file;
+            const cardId = `card-${index}`;
+            const canvasId = `canvas-${index}`;
+            const iconId = `icon-${index}`;
+            const iconContainer = document.getElementById(iconId);
+
+            if (currentCanvas) {
+                const oldCtx = currentCanvas.getContext('2d');
+                oldCtx.clearRect(0, 0, currentCanvas.width, currentCanvas.height);
+            }
+
+            if (activeTrackIndex === index && !audio.paused) {
+                audio.pause();
+                iconContainer.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>`;
+                document.getElementById(cardId).classList.remove('active-track');
+                cancelAnimationFrame(animationId);
+
+                const ctx = document.getElementById(canvasId).getContext('2d');
+                ctx.clearRect(0, 0, document.getElementById(canvasId).width, document.getElementById(canvasId).height);
+                return;
+            }
+
+            if (activeTrackIndex !== -1) {
+                document.getElementById(`progress-${activeTrackIndex}`).style.width = '0%';
+                document.getElementById(`time-${activeTrackIndex}`).innerText = `0:00 / ${songs[activeTrackIndex].duration}`;
+            }
+
+            document.querySelectorAll('.track-card').forEach(c => c.classList.remove('active-track'));
+            document.querySelectorAll('.play-status-icon').forEach(i => {
+                i.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>`;
+            });
+
+            activeTrackIndex = index;
+            audio.src = `assets/audio/${selectedFile}`;
+            audio.play();
+
+            document.getElementById(cardId).classList.add('active-track');
+            iconContainer.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>`;
+
+            if (animationId) cancelAnimationFrame(animationId);
+            currentCanvas = document.getElementById(canvasId);
+            renderVisualizer();
+        }
+
+        function renderVisualizer() {
+            if (!currentCanvas) return;
+            animationId = requestAnimationFrame(renderVisualizer);
+
+            const ctx = currentCanvas.getContext('2d');
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            analyser.getByteFrequencyData(dataArray);
+
+            currentCanvas.width = currentCanvas.offsetWidth;
+            currentCanvas.height = currentCanvas.offsetHeight;
+            ctx.clearRect(0, 0, currentCanvas.width, currentCanvas.height);
+
+            const barWidth = (currentCanvas.width / bufferLength) * 2;
+            let barHeight;
+            let x = 0;
+
+            for (let i = 0; i < bufferLength; i++) {
+                barHeight = (dataArray[i] / 255) * currentCanvas.height;
+
+                const gradient = ctx.createLinearGradient(0, currentCanvas.height, 0, 0);
+                gradient.addColorStop(0, 'rgba(168, 85, 247, 0.4)');
+                gradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
+
+                ctx.fillStyle = gradient;
+                ctx.fillRect(x, currentCanvas.height - barHeight, barWidth, barHeight);
+                x += barWidth;
+            }
+        }
+
+        function setVolume(val) {
+            const audio = document.getElementById('main-audio');
+            audio.volume = val;
+
+            document.querySelectorAll('.volume-slider').forEach(slider => {
+                slider.value = val;
+            });
+        }
+    </script>
+    <script src="shared.js"></script>
+</body>
+
+</html>

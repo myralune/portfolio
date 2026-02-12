@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Myralune music commission pricing — from FE2CM tracks to priority compositions.">
+    <title>Myralune | Pricing</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@0.473.0"></script>
+</head>
+
+<body>
+
+    <canvas id="particle-canvas"></canvas>
+
+    <nav class="navbar">
+        <a href="index.html" class="logo">myralune.uk</a>
+        <button class="menu-toggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="pricing.html" class="active">Pricing</a></li>
+            <li><a href="terms.html">Terms</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <header class="page-header animate-on-scroll">
+            <div class="pricing-header-row">
+                <div class="icon-box purple-bg pricing-icon">
+                    <i data-lucide="music" width="24" height="24"></i>
+                </div>
+                <h1 class="pricing-title">Music — Per Minute</h1>
+            </div>
+        </header>
+
+        <div class="currency-switch-container animate-on-scroll">
+            <span id="label-gbp" class="active">GBP</span>
+            <label class="switch">
+                <input type="checkbox" id="currency-toggle" onchange="toggleCurrency()">
+                <span class="slider"></span>
+            </label>
+            <span id="label-robux">Robux</span>
+        </div>
+
+        <section class="pricing-grid">
+
+            <div class="pricing-card animate-on-scroll">
+                <h3>FE2CM OST</h3>
+                <p class="desc">Exclusive to Flood Escape 2 Community Maps.</p>
+
+                <div class="price" data-gbp="5" data-robux="1.5K">
+                    <span class="currency">&pound;</span><span class="amount">5</span> <span class="per">/ per min</span>
+                </div>
+
+                <ul class="features">
+                    <li><i data-lucide="check" width="16"></i> <strong>Free Map Syncing</strong></li>
+                    <li><i data-lucide="check" width="16"></i> MP3 & WAV Delivery</li>
+                    <li><i data-lucide="check" width="16"></i> 1 Free Revision</li>
+                </ul>
+
+                <a href="contact.html" class="btn">Get Started</a>
+            </div>
+
+            <div class="pricing-card animate-on-scroll">
+                <h3>Standard Track</h3>
+                <p class="desc">Fully custom compositions, tailored to your game's needs.</p>
+
+                <div class="price" data-gbp="25" data-robux="10K">
+                    <span class="currency">&pound;</span><span class="amount">25</span> <span class="per">/ per min</span>
+                </div>
+
+                <ul class="features">
+                    <li><i data-lucide="check" width="16"></i> <strong>HQ WAV + MP3 Files</strong></li>
+                    <li><i data-lucide="check" width="16"></i> Optional Loop Format</li>
+                    <li><i data-lucide="check" width="16"></i> 2 Free Revisions</li>
+                </ul>
+
+                <a href="contact.html" class="btn">Get Started</a>
+            </div>
+
+            <div class="pricing-card popular animate-on-scroll">
+                <div class="badge">Most Popular</div>
+                <h3>Priority Track</h3>
+                <p class="desc">You get priority over other clients and faster delivery.</p>
+
+                <div class="price" style="color: #a855f7;" data-gbp="40" data-robux="15K">
+                    <span class="currency">&pound;</span><span class="amount">40</span> <span class="per">/ per min</span>
+                </div>
+
+                <ul class="features">
+                    <li><i data-lucide="check" width="16"></i> <strong>Front-of-Queue (Express)</strong></li>
+                    <li><i data-lucide="check" width="16"></i> <strong>Separate Stems Included</strong></li>
+                    <li><i data-lucide="check" width="16"></i> 3 free revisions</li>
+                </ul>
+
+                <a href="contact.html" class="btn btn-solid">Get Started</a>
+            </div>
+
+        </section>
+
+        <p class="disclaimer animate-on-scroll">
+            These are base prices only. Complex requests or commercial rights may add additional fees. I have the right
+            to refuse any project that doesn't align with my values or interests. Please contact me to discuss further.<br><br>
+            A revision is considered a complete rework of the track after composition has started. Minor adjustments to the existing composition do not count as revisions.
+            Additional revisions beyond the free ones can be purchased for £15 or 7.5K Robux each.
+        </p>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <span class="footer-brand">myralune.uk</span>
+            <nav class="footer-links">
+                <a href="terms.html">Terms</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <span class="footer-copy">&copy; 2025 myralune. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <script>
+        function toggleCurrency() {
+            const toggle = document.getElementById('currency-toggle');
+            const isRobux = toggle.checked;
+
+            document.getElementById('label-gbp').className = isRobux ? '' : 'active';
+            document.getElementById('label-robux').className = isRobux ? 'active' : '';
+
+            document.querySelectorAll('.price').forEach(el => {
+                const amountSpan = el.querySelector('.amount');
+                const currencySpan = el.querySelector('.currency');
+
+                if (isRobux) {
+                    amountSpan.innerText = el.getAttribute('data-robux');
+                    currencySpan.innerText = '';
+                    amountSpan.style.letterSpacing = '1px';
+                } else {
+                    amountSpan.innerText = el.getAttribute('data-gbp');
+                    currencySpan.innerText = '£';
+                }
+            });
+        }
+    </script>
+    <script src="shared.js"></script>
+</body>
+
+</html>
